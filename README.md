@@ -1,52 +1,61 @@
-# Keystone Base
+# Keystone Base (The Lego Plate)
 
-The gold-standard modular skeleton for Keystone projects. Built with Svelte 5 (Runes), Convex, Tailwind 4, and Better Auth.
+**"Full control, zero tech-debt, worst part gone."**
 
-## 🏗 Architecture
+This is the **generic, unopinionated foundation** for all Keystone V2 projects. It is a "Lego Plate"—a clean, high-performance surface ready for you to snap modules onto.
 
-This is a clean slate. All Keystone-specific "Theater" logic has been stripped, leaving only the high-performance core:
+**ZERO Monetization. ZERO Business Logic. ZERO Fluff.**
 
-- **Frontend:** SvelteKit + Svelte 5 Runes
+## 🏗 Stack
+
+- **Framework:** SvelteKit + Svelte 5 (Runes)
 - **Styling:** Tailwind CSS 4.0
-- **Backend:** Convex (Realtime DB + Functions)
+- **Backend:** Convex (Realtime Database + Functions)
 - **Auth:** Better Auth (with Convex adapter)
-- **SaaS:** Polar.sh integration ready (Webhooks + API)
+- **Linting:** Biome + ESLint (inc. `@convex-dev/eslint-plugin`)
 
-## 🚀 Getting Started
+## ⚡ Quick Start
 
 1. **Clone & Install**
    ```bash
-   git clone https://github.com/srt54558/keystone-base.git my-app
+   npx keystone create my-app
    cd my-app
    npm install
    ```
 
 2. **Environment Setup**
-   Copy the example env:
    ```bash
    cp .env.example .env.local
    ```
-   Fill in your keys:
-   - `CONVEX_DEPLOYMENT` / `VITE_CONVEX_URL`: Run `npx convex dev` to generate these.
-   - `BETTER_AUTH_SECRET`: Generate with `openssl rand -base64 32`.
-   - `POLAR_*`: From your Polar.sh dashboard (if using SaaS features).
+   *Generate `BETTER_AUTH_SECRET` with `openssl rand -base64 32`.*
 
-3. **Run Development**
+3. **Ignition**
    ```bash
    npx convex dev
    npm run dev
    ```
 
-## 🧩 Modularity
+## 🧩 The Philosophy
 
-This base is designed to accept Keystone Modules. 
+This repository is **intentionally empty** of business features. It provides:
 
-- **Schema:** `src/convex/schema.ts` is minimal. Add your tables there.
-- **Auth:** `src/convex/auth.ts` and `src/convex/users.ts` handle identity.
-- **UI:** `src/lib/components/ui` contains your Shadcn-Svelte primitives.
+1.  **Authentication:** A pre-wired `users` table synced with Better Auth.
+2.  **Type Safety:** End-to-end TypeScript from database to UI.
+3.  **Gold Standard Linting:** Hardcoded rules to prevent "AI Slop" and reactivity errors.
 
-## 🛡️ Best Practices
+### Injecting Modules
+Do not build billing, invoices, or complex teams from scratch. Use the **Keystone CLI** to inject specialized, pre-validated modules into this base.
 
-- **Linting:** Includes `@convex-dev/eslint-plugin` to catch reactivity and schema issues.
-- **Types:** Full TypeScript support with Svelte 5 generics.
-- **Security:** RLS via Convex `ctx.auth` and Better Auth policies.
+```bash
+# Example: Inject the billing engine (Polar.sh)
+keystone add billing
+```
+
+## 📂 Structure
+
+- `src/convex/schema.ts` → **Minimal.** Only the `users` table exists.
+- `src/convex/auth.ts` → **Clean.** Authentication logic without SaaS hooks.
+- `src/convex/users.ts` → **Synced.** Automatically manages user identity.
+
+---
+*Built for the Keystone Architecture.*

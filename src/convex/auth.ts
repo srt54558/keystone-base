@@ -1,10 +1,8 @@
 import { createClient, type GenericCtx } from "@convex-dev/better-auth";
 import { convex } from "@convex-dev/better-auth/plugins";
-import { polar, checkout, portal } from "@polar-sh/better-auth";
-import { Polar } from "@polar-sh/sdk";
 import { components, internal } from "./_generated/api";
 import { type DataModel } from "./_generated/dataModel";
-import { query, internalQuery } from "./_generated/server";
+import { internalQuery, query } from "./_generated/server";
 import { betterAuth } from "better-auth";
 import { magicLink } from "better-auth/plugins";
 import authConfig from "./auth.config";
@@ -43,13 +41,7 @@ export const auth = (authComponent as any).auth;
 
 export const createAuth = (ctx: GenericCtx<DataModel>) => {
   const siteUrl = process.env.SITE_URL ?? "http://localhost:5173";
-  const polarAccessToken = process.env.POLAR_ACCESS_TOKEN;
   
-  const polarClient = polarAccessToken ? new Polar({
-    accessToken: polarAccessToken,
-    server: process.env.POLAR_SERVER === "sandbox" ? "sandbox" : "production",
-  }) : null;
-
   return betterAuth({
     secret: process.env.BETTER_AUTH_SECRET,
     baseURL: siteUrl,
@@ -103,16 +95,6 @@ export const createAuth = (ctx: GenericCtx<DataModel>) => {
           });
         }
       }),
-      ...(polarClient ? [polar({
-        client: polarClient,
-        createCustomerOnSignUp: true,
-        use: [
-          checkout({
-            successUrl: `${siteUrl}/prototype?checkout_id={CHECKOUT_ID}`,
-          }), 
-          portal()
-        ],
-      }) as any] : []),
     ],
   });
 };

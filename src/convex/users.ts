@@ -44,57 +44,6 @@ export const deleteUserData = internalMutation({
   },
 });
 
-export const syncSubscriptionWebhook = internalMutation({
-  args: {
-    webhookSecret: v.string(),
-    email: v.string(),
-    polarCustomerId: v.string(),
-    subscriptionStatus: v.string(),
-    licenseKey: v.optional(v.string()),
-    authUserId: v.optional(v.string()),
-  },
-  handler: async (ctx: GenericMutationCtx<DataModel>, args) => {
-    if (args.webhookSecret !== process.env.POLAR_WEBHOOK_SECRET) {
-      throw new Error("Invalid webhook secret");
-    }
-
-    // 1. Try to find by authUserId (Metadata is most reliable for primary link)
-    let user = args.authUserId 
-      ? await ctx.db
-          .query("users")
-          .withIndex("by_auth_user_id", (q) => q.eq("authUserId", args.authUserId!))
-          .unique()
-      : null;
-
-    // 2. Try to find by polarCustomerId (Reliable for subsequent grants/webhooks)
-    if (!user && args.polarCustomerId) {
-      user = await ctx.db
-        .query("users")
-        .withIndex("by_polar_id", (q) => q.eq("polarCustomerId", args.polarCustomerId))
-        .unique();
-    }
-
-    // 3. Fallback to email
-    if (!user && args.email) {
-      user = await ctx.db
-        .query("users")
-        .withIndex("by_email", (q) => q.eq("email", args.email))
-        .unique();
-    }
-
-    if (user) {
-      await ctx.db.patch(user._id, {
-        polarCustomerId: args.polarCustomerId || user.polarCustomerId,
-        subscriptionStatus: args.subscriptionStatus,
-        licenseKey: args.licenseKey || user.licenseKey,
-        isActive: args.subscriptionStatus === "active",
-      });
-    } else {
-      console.error("Sync Fail: Could not resolve user during webhook.");
-    }
-  },
-});
-
 export const getMeInternal = internalQuery({
   args: { authUserId: v.string() },
   handler: async (ctx, args) => {
