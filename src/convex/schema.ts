@@ -1,6 +1,9 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
+// [KEYSTONE_MODULE_IMPORTS]
+// (Imports from modules will be injected here)
+
 export default defineSchema({
   // 1. USERS (Local Mirror of Better Auth User)
   users: defineTable({
@@ -13,4 +16,7 @@ export default defineSchema({
   })
   .index("by_email", ["email"])
   .index("by_auth_user_id", ["authUserId"]),
+
+  // [KEYSTONE_MODULE_TABLES]
+  // (Module table definitions will be injected here)
 });
