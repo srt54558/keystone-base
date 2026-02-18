@@ -4,16 +4,14 @@
 	import { createSvelteAuthClient } from '@mmailaender/convex-better-auth-svelte/svelte';
 	import { authClient } from '$lib/auth-client';
 	import { page } from '$app/stores';
-	import { setupConvex, useConvexClient } from 'convex-svelte';
-	import { api } from '$convex/_generated/api';
-	import { PUBLIC_CONVEX_URL } from '$env/static/public';
+	import { setupConvex } from 'convex-svelte';
+	import { env } from '$env/dynamic/public';
 
 	let { children, data } = $props();
 
-	setupConvex(PUBLIC_CONVEX_URL);
-    const convex = useConvexClient();
+	setupConvex(env.PUBLIC_CONVEX_URL ?? 'http://127.0.0.1:3210');
 
-	const auth = createSvelteAuthClient({
+	createSvelteAuthClient({
 		authClient,
 		getServerState: () => data.authState
 	});
@@ -33,8 +31,8 @@
         <div class="inline-flex gap-4 pointer-events-auto">
             <span>&copy; {new Date().getFullYear()} K+</span>
             <span>&bull;</span>
-            <a href="/privacy" class="hover:text-primary transition-colors">Privacy</a>
-        </div>
-    </footer>
+	            <a href="https://k-plus.one/privacy" class="hover:text-primary transition-colors">Privacy</a>
+	        </div>
+	    </footer>
     {/if}
 </div>

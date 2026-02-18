@@ -9,6 +9,9 @@ export default defineConfig(({ mode }) => {
 	// Make them available in process.env for libraries like Better Auth
 	// when running in the SvelteKit server runtime (dev and build)
 	Object.assign(process.env, env);
+	process.env.PUBLIC_CONVEX_URL ??= 'http://127.0.0.1:3210';
+	process.env.PUBLIC_CONVEX_SITE_URL ??= 'http://127.0.0.1:3211';
+	process.env.SITE_URL ??= 'http://localhost:5173';
 
 	return {
 		plugins: [tailwindcss(), sveltekit()]

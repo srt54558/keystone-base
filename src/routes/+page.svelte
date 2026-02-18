@@ -1,19 +1,13 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { fade, fly } from 'svelte/transition';
+  import { fly } from 'svelte/transition';
   import { cubicOut } from 'svelte/easing';
   import { 
-    Github, ArrowRight, Terminal, Cpu, Activity, Zap, 
-    ShieldCheck, CheckCircle2, Layers, Code2, 
-    Database, Lock, Rocket, XCircle, FileCode, GitFork
+    Github, ArrowRight, Terminal, 
+    ShieldCheck, CheckCircle2, Layers, 
+    Database, FileCode, GitFork
   } from 'lucide-svelte';
+  import { resolve } from '$app/paths';
   import { goto } from '$app/navigation';
-  
-  let mounted = $state(false);
-
-  onMount(() => {
-    mounted = true;
-  });
 
   // Smooth scroll to section
   function scrollTo(id: string) {
@@ -22,7 +16,7 @@
   }
 
   function handleAction() {
-      goto('/signup');
+      goto(resolve('/signup'));
   }
 </script>
 
@@ -281,9 +275,9 @@
            <span class="font-bold text-zinc-500 tracking-wide text-xs">Keystone © 2026</span>
         </div>
         <div class="flex items-center gap-6 text-zinc-600 text-sm">
-            <a href="#" class="hover:text-zinc-400 transition-colors">Docs</a>
-            <a href="#" class="hover:text-zinc-400 transition-colors">GitHub</a>
-            <a href="#" class="hover:text-zinc-400 transition-colors">Twitter</a>
+            <a href="https://docs.k-plus.one" class="hover:text-zinc-400 transition-colors">Docs</a>
+            <a href="https://github.com" class="hover:text-zinc-400 transition-colors">GitHub</a>
+            <a href="https://x.com" class="hover:text-zinc-400 transition-colors">X</a>
         </div>
     </div>
   </footer>

@@ -18,17 +18,8 @@ export default [
 		}
 	},
 	{
-		plugins: {
-			convex: convex
-		},
-		rules: {
-			// CONVEX RULES
-			"convex/async-functions": "error",
-			"convex/new-house-rule": "error",
-			"convex/no-schema-imports": "error",
-			"convex/reactivity": "error",
-			"convex/values": "error"
-		}
+		files: ['src/convex/**/*.ts'],
+		...convex.configs.recommended[0]
 	},
 	{
 		ignores: ['build/', '.svelte-kit/', 'dist/', 'node_modules/', 'src/convex/_generated/']

@@ -4,7 +4,7 @@
   import { useQuery } from "convex-svelte";
   import { authClient } from "$lib/auth-client";
   import { goto } from "$app/navigation";
-  import { base } from "$app/paths";
+  import { resolve } from "$app/paths";
   import { Button } from "$lib/components/ui/button";
   import * as Card from "$lib/components/ui/card";
 
@@ -17,7 +17,7 @@
 
   async function signOut() {
       await authClient.signOut();
-      await goto(`${base}/signin`);
+      await goto(resolve('/signin'));
   }
 </script>
 
@@ -27,7 +27,7 @@
   {:else if !isAuthenticated}
     <div class="text-center">
         <p class="mb-4">You must be logged in to view this page.</p>
-        <Button href="{base}/signin" variant="link">Sign In</Button>
+        <Button href={resolve('/signin')} variant="link">Sign In</Button>
     </div>
   {:else}
     <div class="max-w-4xl mx-auto space-y-6">
@@ -47,12 +47,11 @@
 
         <Card.Root>
             <Card.Header>
-                <Card.Title>Subscription</Card.Title>
-                <Card.Description>Manage your subscription and billing</Card.Description>
+                <Card.Title>Base Status</Card.Title>
+                <Card.Description>Skeleton is active. Install modules to extend features.</Card.Description>
             </Card.Header>
-            <Card.Content class="flex gap-4">
-                <Button href="{base}/checkout" variant="default">Subscribe</Button>
-                <Button href="{base}/portal" variant="secondary">Manage Subscription</Button>
+            <Card.Content>
+                <p class="text-sm text-muted-foreground">No optional modules are enabled in keystone-base by default.</p>
             </Card.Content>
         </Card.Root>
     </div>
