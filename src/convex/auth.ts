@@ -39,23 +39,12 @@ export const auth = (authComponent as any).auth;
 
 export const createAuth = (ctx: GenericCtx<DataModel>) => {
   const siteUrl = process.env.SITE_URL ?? "http://localhost:5173";
-  const githubClientId = process.env.GITHUB_CLIENT_ID;
-  const githubClientSecret = process.env.GITHUB_CLIENT_SECRET;
   
   return betterAuth({
     secret: process.env.BETTER_AUTH_SECRET,
     baseURL: siteUrl,
     trustedOrigins: [siteUrl, "http://localhost:5173"],
     database: authComponent.adapter(ctx),
-    socialProviders:
-      githubClientId && githubClientSecret
-        ? {
-            github: {
-              clientId: githubClientId,
-              clientSecret: githubClientSecret,
-            },
-          }
-        : undefined,
     databaseHooks: {
       user: {
         create: {

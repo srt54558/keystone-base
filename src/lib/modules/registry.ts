@@ -1,12 +1,6 @@
-/**
- * KEYSTONE MODULE REGISTRY
- * 
- * This registry tracks which modules are active in the application.
- * Modules register themselves during initialization or import.
- * This allows the application to adapt UI and logic based on available features.
- */
+import { KEYSTONE_GENERATED } from "../keystone.generated.js";
 
-export type ModuleId = 'org-core' | 'polar-pay' | 'file-storage' | 'ai-obs' | string;
+export type ModuleId = string;
 
 export interface ModuleConfig {
   id: ModuleId;
@@ -52,5 +46,8 @@ class ModuleRegistry {
   }
 }
 
-// Export a singleton instance
 export const modules = new ModuleRegistry();
+
+for (const mod of KEYSTONE_GENERATED.modules) {
+  modules.register(mod);
+}
