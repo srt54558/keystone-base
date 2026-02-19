@@ -18,7 +18,7 @@ This is the **generic, unopinionated foundation** for all Keystone V2 projects. 
 
 1. **Clone & Install**
    ```bash
-   npx keystone create my-app
+   npx @kplus/keystone create my-app
    cd my-app
    npm install
    ```
@@ -48,7 +48,7 @@ Do not build billing, invoices, or complex teams from scratch. Use the **Keyston
 
 ```bash
 # Example: Inject the billing engine (Polar.sh)
-keystone add billing
+npx @kplus/keystone add billing
 ```
 
 ## 📂 Structure
